@@ -13,7 +13,14 @@ pygame.display.set_caption("Hangman!!!!")
 
 FONT = pygame.font.Font(None, 50)
 
-words = ["apple", "banana", "orange"]
+words = ["apple", "banana", "orange", "time", "way", "year", "work", "government", "day", "man",
+         "world", "life", "part", "house", "course", "case", "system", "place", "end", "group",
+         "company", "party", "information", "school", "fact", "money", "point", "example", "state",
+         "business", "night", "area", "water", "thing", "family", "head", "hand", "order", "side",
+         "home", "development", "week", "power", "country", "council", "use", "service", "room",
+         "market", "problem", "court", "police", "interest", "car", "law", "road", "form", "face",
+         "education", "policy", "research"]
+
 word = random.choice(words)
 guessed = ["_"] * len(word)
 attempts = 6
@@ -36,15 +43,12 @@ running = True
 while running:
     screen.fill(WHITE)
 
-    text = FONT.render(" ".join(guessed), True, BLACK)
-    screen.blit(text, (WIDTH // 2 - text.get_width() // 2, 100))
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
             guess = event.unicode.lower()
-            if guess.isalpha() and guess not in guessed:
+            if guess.isalpha():
                 if guess in word:
                     for i, letter in enumerate(word):
                         if letter == guess:
@@ -52,21 +56,22 @@ while running:
                 else:
                     attempts -= 1
 
+    text = FONT.render(" ".join(guessed), True, BLACK)
+    screen.blit(text, (WIDTH // 2 - text.get_width() // 2, 100))
+
     if "_" not in guessed:
         text = FONT.render(f"You Won! Word: {word}", True, BLACK)
         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, 300))
         pygame.display.flip()
-        pygame.time.delay(3000)  # Pause for 2 seconds
+        pygame.time.delay(3000)
         running = False
 
     elif attempts == 0:
         text = FONT.render(f"You Lost! Word: {word}", True, BLACK)
         screen.blit(text, (WIDTH // 2 - text.get_width() // 2, 300))
         pygame.display.flip()
-        pygame.time.delay(3000)  # Pause for 2 seconds
+        pygame.time.delay(3000)
         running = False
 
     draw_hangman(attempts)
     pygame.display.flip()
-    
-    
